@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real Time Logs</title>
+    <style>
+    body { margin: 0; padding-bottom: 3rem; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    
+    #logs { list-style-type: none; margin: 0; padding: 0; }
+    #logs > li { padding: 0.5rem 1rem; }
+    #logs > li:nth-child(odd) { background: #efefef; }
+
+    
+    </style>
+</head>
+<body>
+
+    <ul id="logs"></ul>
+
+    
+</body>
+
+
+<script src="http://localhost:3000/socket.io/socket.io.js"></script>
+
+<script>
+
+    const socket = io();
+
+    // socket.on("connection", (socket) => {
+    //     console.log(socket.id); // x8WIv7-mJelg7on_ALbx
+    // });
+
+    var logs = document.getElementById('logs');
+
+    socket.on('connection', socket => {
+        console.log('Connected');
+    })
+
+
+    socket.on('new log', (log) => {
+        var item = document.createElement('li');
+        item.textContent = log;
+        logs.appendChild(item);
+
+        const numOfLis = document.querySelectorAll("li").length;
+        // console.log(numOfLis);
+        if(numOfLis > 10) {
+            // logs.removeChild(logs.querySelector("li"));
+        }
+
+    })
+
+</script>
+
+</html>
